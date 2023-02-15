@@ -1632,3 +1632,122 @@ section {
   filter: sepia(60%);
   padding-top:10px;
 }
+/* clicable tabs */
+.tabs__panel p {
+  font-family: "Open Sans", sans-serif;
+  color: #444444;
+  font-size: 16px;
+}
+
+.tabs__list {
+  font-size: 13px;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 1px;
+  position: relative;
+  z-index: 1;
+}
+.tabs__list:after {
+  clear: both;
+  content: '';
+  display: block;
+}
+.tabs__list > li {
+  display: inline;
+}
+.tabs__list > li label {
+  background: none repeat scroll 0 0 #000000;
+  border-color: #D5D5D5 #D5D5D5 transparent #D5D5D5;
+  color: #ffffff;
+  cursor: pointer;
+  float: left;
+  font-weight: bold;
+  height: 44px;
+  line-height: normal;
+  margin: 0px 29px 0 0px;
+  padding: 12px 13px 0;
+  position: relative;
+  border-radius: 5px;
+}
+.tabs__list > li:hover label {
+  text-decoration: none;
+}
+.tabs__radio:nth-of-type(1):checked ~ .tabs__list > li:nth-of-type(1) label, .tabs__radio:nth-of-type(2):checked ~ .tabs__list > li:nth-of-type(2) label, .tabs__radio:nth-of-type(3):checked ~ .tabs__list > li:nth-of-type(3) label, .tabs__radio:nth-of-type(4):checked ~ .tabs__list > li:nth-of-type(4) label, .tabs__radio:nth-of-type(5):checked ~ .tabs__list > li:nth-of-type(5) label {
+  background: #ffc107;
+  height: 44px;
+  margin-bottom: 0px;
+  margin-top: 0;
+  color: #FFFFFF;
+}
+/* IE8 fallback */
+.tabs__list > li .tabs__list--active {
+  background: #FFFFFF;
+  height: 44px;
+  margin-bottom: 0px;
+  margin-top: 0;
+}
+.tabs__container {
+  background: #f3f3f3;
+  font-size: 0;
+  margin-top: 40px;
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+  padding-left: 12px;
+}
+.tabs__container > .tabs__panel {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  font-size: 12px;
+  height: 0;
+  margin: 0;
+  padding: 0 20px;
+  vertical-align: top;
+  white-space: normal;
+  width: 100%;
+}
+.tabs__radio:nth-of-type(1):checked ~ .tabs__container > .tabs__panel:first-child {
+  margin-left: 0;
+}
+.tabs__radio:nth-of-type(2):checked ~ .tabs__container > .tabs__panel:first-child {
+  margin-left: -100%;
+}
+.tabs__radio:nth-of-type(3):checked ~ .tabs__container > .tabs__panel:first-child {
+  margin-left: -200%;
+}
+.tabs__radio:nth-of-type(4):checked ~ .tabs__container > .tabs__panel:first-child {
+  margin-left: -300%;
+}
+.tabs__radio:nth-of-type(5):checked ~ .tabs__container > .tabs__panel:first-child {
+  margin-left: -400%;
+}
+/* IE8 fallbacks */
+.tabs__radio--checked ~ .tabs__container > .tabs__panel:first-child {
+  margin-left: 0;
+}
+.tabs__radio + .tabs__radio--checked ~ .tabs__container > .tabs__panel:first-child {
+  margin-left: -100%;
+}
+.tabs__radio + .tabs__radio + .tabs__radio--checked ~ .tabs__container > .tabs__panel:first-child {
+  margin-left: -200%;
+}
+.tabs__radio + .tabs__radio + .tabs__radio + .tabs__radio--checked ~ .tabs__container > .tabs__panel:first-child {
+  margin-left: -300%;
+}
+.tabs__radio + .tabs__radio + .tabs__radio + .tabs__radio + .tabs__radio--checked ~ .tabs__container > .tabs__panel:first-child {
+  margin-left: -400%;
+}
+.tabs__radio:nth-of-type(1):checked ~ .tabs__container > .tabs__panel:nth-child(1),
+.tabs__radio:nth-of-type(2):checked ~ .tabs__container > .tabs__panel:nth-child(2),
+.tabs__radio:nth-of-type(3):checked ~ .tabs__container > .tabs__panel:nth-child(3),
+.tabs__radio:nth-of-type(4):checked ~ .tabs__container > .tabs__panel:nth-child(4),
+.tabs__radio:nth-of-type(5):checked ~ .tabs__container > .tabs__panel:nth-child(5) {
+  height: 300px;
+  padding-top: 40px;
+}
+/* IE8 fallback */
+.tabs__container > .tabs__panel--active {
+  height: auto;
+}
