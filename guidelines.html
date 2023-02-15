@@ -94,8 +94,46 @@
 <section id="about" class="about ">
   <div class="container">
     <div class="row content">
-      <div class="col-lg-12">
+     <div class="col-lg-12">
         
+        <div id="content" class="tabs">
+          <input class="tabs__radio" name="content" type="radio" id="content-feature1" hidden checked />
+          <input class="tabs__radio" name="content" type="radio" id="content-feature2" hidden />
+          <input class="tabs__radio" name="content" type="radio" id="content-feature3" hidden />
+          <input class="tabs__radio" name="content" type="radio" id="content-summary" hidden />
+          <ul class="tabs__list">
+            <li><a href="#content-feature1"><label for="content-feature1">Feature #1</label></a></li>
+            <li><a href="#content-feature2"><label for="content-feature2">Feature #2</label></a></li>
+            <li><a href="#content-feature3"><label for="content-feature3">Feature #3</label></a></li>
+            <li><a href="#content-summary"><label for="content-summary">Summary</label></a></li>
+          </ul>
+          <div class="tabs__container">
+            <article class="tabs__panel" id="content-feature1-panel">
+              <h2>You can link to these tabs (but this isn't implemented using CSS :target)</h2>
+              <p>Just throw in a hash to the URL and the appropriate tab is opened.</p>
+              <p>On Firefox middle clicking a tab works as one would expect. WebKits and IE register the middle click on the label and not to link.</p>
+              <p>The last visited tab is remembered in browser history. Changing tabs does not add new entries to browser history.</p>
+              <p id="one">#one</p>
+            </article>
+            <aside class="tabs__panel" id="content-feature2-panel">
+              <h2>You can link inside the tabs</h2>
+              <p>The correct tab becomes visible when you use a hash that points inside a tab panel.</p>
+              <p id="two">#two</p>
+            </aside>
+            <aside class="tabs__panel" id="content-feature3-panel">
+              <h2>These tabs are usable without JavaScript</h2>
+              <p>Turn JS off. Still works. Minus the hash tricks. Minus old browsers like IE8.</p>
+              <p id="three">#three</p>
+            </aside>
+            <aside class="tabs__panel" id="content-summary-panel">
+              <h2>So how is this any different from the rest?</h2>
+              <p>I think I haven't seen many implementations that attempt to fix usability issues related to linking inside tabs. This solution isn't perfect either, but "so simple it works".</p>
+              <p>I don't know how friendly these tabs are to people who can't see them, but hear them. The tabs however are not hidden with <code>display: none;</code>, technically the content is visible all the time. It only gets hidden because the container has <code>overflow: hidden;</code> and all the panels are 100% wide and in a row.</p>
+              <p>This solution was made to replace jQuery UI tabs that were created with Zend. Awful code to work with.</p>
+              <p id="four">#four</p>
+            </aside>
+          </div>
+        </div>
         </div>
     </div>
 
