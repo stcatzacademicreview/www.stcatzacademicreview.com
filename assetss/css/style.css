@@ -1626,8 +1626,9 @@ section {
   color: #ffc107;
 }
 .member-img img {
-  max-width: 100%;
+  max-width: 70%;
   height: auto;
   border-radius: 50%;
   filter: sepia(60%);
+  padding-top:10px;
 }
