@@ -1,125 +1,164 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-<title>H360_report</title>
-<!-- link -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
-<!-- end link -->
-<style>.card{
-    height: 100%;
-    background-color: #ffffff!important;
-    margin: 20px 12px;
-    padding: 10px 25px 20px;
-    height: 100%;
-    box-shadow: 0 3px 6px #00000029;
-    border-radius: 35px;
-    position: relative;
-    text-align: center;
+<?php
+if(empty($_POST) === false) {
+
+	session_start();
+
+	function test_input($data) {
+		$data = trim($data);
+		$data = stripslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
+	}
+
+	$errors = array();
+
+	if(isset($_POST['name'], $_POST['email'], $_POST['message'])) {
+			$fields = array(
+				'name'		=> $_POST['name'],
+				'email'		=> $_POST['email'],
+				'message'	=> $_POST['message']
+			);
+
+			foreach ($fields as $field => $data) {
+				if(empty($data)) {
+					//$errors[] = "The " . $field . " is required";
+					$errors[] = "Please fill-up the form correctly.";
+					break 1;
+				}
+			}
+
+
+			if(empty($errors) === true) {
+				if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+					$errors[] = "Oops! Invalid E-mail!";
+				}
+			}
+
+
+
+			if(empty($errors) === true) {
+				$name 		= test_input($_POST['name']);
+				$email 		= test_input($_POST['email']);
+				$message 	= test_input($_POST['message']);
+
+				$to 		= "your-email@gmail.com";
+				$subject 	= "Your Website Name: You have a new message from " . $name;
+				
+				$body 		= "
+					<html>
+						<head>
+							<title></title>
+							<style>
+								* {
+									margin: 0;
+									padding: 0;
+								}
+								body {
+									background-color: #EEEEEE;
+								}
+								.main {
+									width: 960px;
+									margin: 0px;
+									background-color: white;
+									padding: 0px;
+								}
+								h4 {
+									color: navy;
+								}
+								table {
+									margin-top: 15px;
+									margin-bottom: 15px;
+								}
+								table, tr, th, td {
+									border: 1px solid lightGray;
+									border-collapse: collapse;
+								}
+								th {
+									font-size: 15px;
+									font-weight: normal;
+									line-height: 25px;
+									padding: 5px;
+									text-align: left;
+									color: darkred;
+								}
+								td {
+									font-size: 15px;
+									font-weight: normal;
+									line-height: 25px;
+									padding: 5px;
+									text-align: left;
+									color: darkgreen;
+								}
+							</style>
+						</head>
+						<body>
+							<div class='main'>
+								<h4>Hello,<br>I am $name, my quote is below - </h4>
+								<table>
+									<tr>
+										<th>Name</th>
+										<td>$name</td>
+									</tr>
+									<tr>
+										<th>E-mail</th>
+										<td>$email</td>
+									</tr>
+									<tr>
+										<th>Message</th>
+										<td>$message</td>
+									</tr>
+								</table>
+							</div>
+						</body>
+					</html>
+				";
+
+
+if(isset($_POST['name']) && isset($_POST['email']) && isset($_POST['message'])) {
+    $data = $_POST['name'] . ' == Email: ' . $_POST['email'] . ' Message: ' . $_POST['message'] . "\r\n";
+    $ret = file_put_contents('entries.log', $data, FILE_APPEND | LOCK_EX);
+    if($ret === false) {
+        die('There was an error writing this file');
+    }
+    else {
+        echo "$ret bytes written to file";
+    }
 }
-.card img {
-    max-height: 147px;
-    width: auto;
+else {
+	header('location: redirect.html');
 }
 
-.card-content h4{
-    color: #434141;
-    font-weight: 900;
-    font-size: 18px;
-    text-transform: capitalize;
-    line-height: 24px;
-    text-align: center;
+
+
+			    // Always set content-type when sending HTML email
+			    $headers = "MIME-Version: 1.0" . "\r\n";
+			    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+			    // More headers
+			    $headers .= 'From:Nate Duhamell <no-Reply@yourdomain.com>' . "\r\n";
+			    $headers .= "Reply-To: " . $email . "(" . $name . ")" . "\r\n";
+
+			    mail($to,$subject,$body,$headers);
+
+				session_unset();
+				session_destroy();
+			    
+				header('location: redirect.html');
+				exit();
+			
+			} elseif(empty($errors) === false) {
+				$_SESSION['fields'] = $fields;
+				$_SESSION['errors'] = $errors;
+				header('location: error.php');
+				exit();
+			}
+
+
+	}
+
+
+} else {
+	header('location: redirect.html');
+	exit();
 }
-
-.card-content p{
-  color: #434141;
-    font-weight: bolder;
-    font-size: 12px;
-    line-height: 17px;
-}
-
-.nb {
-  font-size: 18px;
-    display: inline-block;
-    font-family: Poppins;
-    font-weight: 600;
-    padding: 10px 25px;
-    box-shadow: 6px 7px 16px #00000039;
-    color: #000!important;
-    background-color: #e2e417;
-    border-radius: 5px;
-    border: 0px;
-}
-.vg {
-     font-size: 80px!important;
-    line-height: 77px!important;
-    text-align: center!important;
-    color: #f5fcfb!important;
-font-weight: bolder!important; 
-}</style>
-</head>
-
-<body>
-
-<!-- header start -->
-	
-<section class="container btns">
-<div class="row">
-<div class="col-md-4">
-   <div class="card">
-  <img src="https://livealtlife.com/wp-content/uploads/2022/07/Group-3511.png">
-  <div class="card-content">
-    <h4>Health Restore Kickstarter Silver</h4>
-    <p>A holistic program that focuses on nutrition as well as regular health &amp; risk monitoring &amp; consultations over a 30-day period. The aim is to enable better health outcomes for people with Type-2 Diabetes.</p>
-      <button class="nb"><a href="https://wordpress-844015-3021868.cloudwaysapps.com/shop3/"><span>₹</span>9,999</a></button>
-  </div>
-</div>
-    </div>
-<div class="col-md-4">
-   <div class="card">
-  <img src="https://livealtlife.com/wp-content/uploads/2022/07/Group-3511.png">
-  <div class="card-content">
-    <h4>Health Restore Kickstarter Gold</h4>
-    <p>A holistic program that focuses on nutrition as well as regular health &amp; risk monitoring &amp; consultations over a 30-day period. The aim is to enable better health outcomes for people with Type-2 Diabetes.</p>
-      <button class="nb"><a href="https://wordpress-844015-3021868.cloudwaysapps.com/shop3/"><span>₹</span>9,999</a></button>
-  </div>
-</div>
-    </div>
-<div class="col-md-4">
-   <div class="card">
-  <img src="https://livealtlife.com/wp-content/uploads/2022/07/Group-3511.png">
-  <div class="card-content">
-    <h4>Health Restore Kickstarter Lite (Non-Bangalore)</h4>
-    <p>A holistic program that focuses on nutrition as well as regular health &amp; risk monitoring &amp; consultations over a 30-day period. The aim is to enable better health outcomes for people with Type-2 Diabetes.</p>
-      <button class="nb"><a href="https://wordpress-844015-3021868.cloudwaysapps.com/shop3/"><span>₹</span>9,999</a></button>
-  </div>
-</div>
-    </div>
-<div class="col-md-4">
-   <div class="card">
-  <img src="https://livealtlife.com/wp-content/uploads/2022/07/Group-3511.png">
-  <div class="card-content">
-    <h4>Health Restore Kickstarter Silver</h4>
-    <p>A holistic program that focuses on nutrition as well as regular health &amp; risk monitoring &amp; consultations over a 30-day period. The aim is to enable better health outcomes for people with Type-2 Diabetes.</p>
-      <button class="nb"><a href="https://wordpress-844015-3021868.cloudwaysapps.com/shop3/"><span>₹</span>9,999</a></button>
-  </div>
-</div>
-    </div>
-<div class="col-md-4">
-   <div class="card">
-  <img src="https://livealtlife.com/wp-content/uploads/2022/07/Group-3511.png">
-  <div class="card-content">
-    <h4>Health Restore Kickstarter Lite</h4>
-    <p>A holistic program that focuses on nutrition as well as regular health &amp; risk monitoring &amp; consultations over a 30-day period. The aim is to enable better health outcomes for people with Type-2 Diabetes.</p>
-      <button class="nb"><a href="https://wordpress-844015-3021868.cloudwaysapps.com/shop3/"><span>₹</span>9,999</a></button>
-  </div>
-</div>
-    </div>
-</div>
-</section>
-<!-- ======= FOOTER ======= -->
-
-</body>
-</html>
+?>
