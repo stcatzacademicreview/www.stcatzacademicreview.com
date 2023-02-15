@@ -1629,3 +1629,9 @@ section {
 #footer .footer-links a:hover {
   color: #ffc107;
 }
+.member-img img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 50%;
+  filter: sepia(60%);
+}
